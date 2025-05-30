@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=45.2.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "essential-hydra-resolvers"
+version = "0.1.0"
+description = "Some essential-hydra-resolvers I find myself frequently reusing"
+readme = "README.md"
+dependencies = [
+    "dotenv",
+    "hydra-core",
+]
+
+[tools.setuptools.packages.find]
+where=['.']
+include=['hydra_plugins.*']
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
