@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "essential-hydra-resolvers"
-version = "0.1.0"
+version = "0.0.1"
 description = "Some essential-hydra-resolvers I find myself frequently reusing"
 readme = "README.md"
 dependencies = [
@@ -12,7 +12,7 @@ dependencies = [
     "hydra-core",
 ]
 
-[tools.setuptools.packages.find]
+[tool.setuptools.packages.find]
 where=['.']
 include=['hydra_plugins.*']
 

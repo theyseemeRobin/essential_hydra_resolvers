@@ -1,24 +1,19 @@
 import importlib
 import logging
 import os
-
 import dotenv
 from omegaconf import OmegaConf
 
 
 def register_resolver(
-    name: str,
-    **kwargs
+    func,
 ):
-    def decorator(resolver_func):
-        OmegaConf.register_new_resolver(name, resolver_func, **kwargs)
-        return resolver_func
-
-    return decorator
+    OmegaConf.register_new_resolver(func.__name__, func, replace=True)
+    return func
 
 
-@register_resolver("from_env")
-def from_env_resolver(env_var: str, default: str = None) -> str:
+@register_resolver
+def from_env(env_var: str, default: str = None) -> str:
     """
     Custom OmegaConf resolver to get environment variables from a .env file or the system environment.
     """
@@ -34,8 +29,8 @@ def from_env_resolver(env_var: str, default: str = None) -> str:
     return value
 
 
-@register_resolver("torch_device")
-def get_device_resolver(device: str):
+@register_resolver
+def torch_device(device: str):
     """
     Custom OmegaConf resolver to validate the torch device.
     """
@@ -54,8 +49,8 @@ def get_device_resolver(device: str):
         raise ValueError(f"Invalid device '{device}'. Must be 'cuda' or 'cpu'.")
 
 
-@register_resolver("get_attr")
-def get_attr_resolver(package_name, attr_name):
+@register_resolver
+def get_attr(package_name, attr_name):
     """
     Custom OmegaConf resolver to get an attribute from a package (e.g. bfloat16 from torch).
     """
