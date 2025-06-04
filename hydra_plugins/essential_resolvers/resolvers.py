@@ -3,13 +3,17 @@ import logging
 import os
 import dotenv
 from omegaconf import OmegaConf
-
+from hydra.utils import get_method, get_object, get_class
 
 def register_resolver(
     func,
 ):
     OmegaConf.register_new_resolver(func.__name__, func, replace=True)
     return func
+
+register_resolver(get_class)
+register_resolver(get_method)
+register_resolver(get_object)
 
 
 @register_resolver
